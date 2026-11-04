@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Heart</title>
+<style>*{margin:0;padding:0;box-sizing:border-box;}body{background:#060208;overflow:hidden;}canvas{display:block;}</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+const canvas=document.getElementById('canvas');
+const ctx=canvas.getContext('2d');
+function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}resize();window.addEventListener('resize',resize);
+const phrases=['I love you','Te amo','Je t'aime','Ich liebe dich','Ti amo','Eu te amo','Я тебя люблю','사랑해','愛してる','我爱你','Σ' αγαπώ','Ik hou van jou','Jag älskar dig','Kocham cię','Anh yêu em','Aku cinta kamu'];
+function heartPoint(t){let x=16*Math.pow(Math.sin(t),3);let y=13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t);return{x:x,y:-y};}
+const particles=[];for(let i=0;i<250;i++){const a=Math.random()*Math.PI*2;const p=heartPoint(a);particles.push({x:p.x,y:p.y,text:phrases[Math.floor(Math.random()*phrases.length)],size:10+Math.random()*8,offset:Math.random()*100});}
+let tick=0;function draw(){tick+=0.03;ctx.clearRect(0,0,canvas.width,canvas.height);const pulse=1+Math.sin(tick)*0.05;const scale=Math.min(canvas.width,canvas.height)/40;particles.forEach(p=>{const glow=0.5+0.5*Math.sin(tick*3+p.offset);const x=canvas.width/2+p.x*scale*pulse;const y=canvas.height/2+p.y*scale*pulse;ctx.font=`bold ${p.size}px Arial`;ctx.textAlign='center';ctx.shadowBlur=20;ctx.shadowColor='#ff3355';ctx.fillStyle=`rgba(255,60,100,${0.7+glow*0.3})`;ctx.fillText(p.text,x,y);});requestAnimationFrame(draw);}draw();
+</script>
+</body>
+</html>
